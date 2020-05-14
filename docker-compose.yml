@@ -1,0 +1,37 @@
+version: "3.3"
+services:
+  web:
+    image: abhas/canvas-lms
+    build: .
+    container_name: canvasweb
+    depends_on:
+      - postgres
+      - redis
+    environment: &ENV
+      REDIS_URL: redis
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: canvas
+      DATABASE_PASSWORD: canvas
+      DATABASE_NAME: canvas
+      CANVAS_DOMAIN: localhost
+      CANVAS_LMS_ADMIN_EMAIL: admin@example.com
+      CANVAS_LMS_ADMIN_PASSWORD: admin
+      CANVAS_LMS_ACCOUNT_NAME: admin
+      ENCRYPTION_KEY: ENCRYPTION_KEY
+    ports:
+      - "8080:80"
+
+  postgres:
+    image: postgres:12.2-alpine
+    container_name: canvasdb
+    environment:
+      POSTGRES_DB: canvas
+      POSTGRES_USER: canvas
+      POSTGRES_PASSWORD: "canvas"
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:5.0.9-alpine
+    container_name: canvasredis
+
