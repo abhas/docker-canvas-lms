@@ -25,7 +25,7 @@ WORKDIR /var/canvas
 
 RUN gem install bundler --version 1.13.6
 RUN bundle _1.13.6_ install --path vendor/bundle --without=test --clean
-RUN yarn install --verbose
+RUN yarn install
 
 RUN RAILS_ENV=production bundle exec rake canvas:compile_assets
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
